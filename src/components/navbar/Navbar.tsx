@@ -1,5 +1,6 @@
 import React from "react";
 import s from './Navbar.module.css';
+import {NavLink} from "react-router-dom";
 
 // type RatingPropsType = {
 //   value: 0 | 1 | 2 | 3 | 4 | 5
@@ -7,8 +8,12 @@ import s from './Navbar.module.css';
 
 export function Navbar () {
   return <nav className={s.nav}>
-    <p className={s.item}>Profile</p>
-    <p className={`${s.item} ${s.active}`}>Massages</p>
+    <div className={s.item}>
+      <NavLink to="/profile" activeClassName={s.active}>Profile</NavLink>
+    </div>
+    <div className={s.item}>
+      <NavLink to="/dialogs" activeClassName={s.active}>Massages</NavLink>
+    </div>
     <p>News</p>
     <p>Music</p>
     <p>Settings</p>
