@@ -8,11 +8,11 @@ import {NavLink} from "react-router-dom";
 
 export function Navbar () {
   return <nav className={s.nav}>
-    <div className={s.item}>
-      <NavLink to="/profile" activeClassName={s.active}>Profile</NavLink>
+    <div >
+      <NavLink to="/profile" className={s.item} activeClassName={s.active}>Profile</NavLink>
     </div>
     <div className={s.item}>
-      <NavLink to="/dialogs" activeClassName={s.active}>Massages</NavLink>
+      <NavLink to="/dialogs" className={s.item} activeClassName={s.active}>Massages</NavLink>
     </div>
     <p>News</p>
     <p>Music</p>
