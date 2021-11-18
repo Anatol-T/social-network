@@ -5,7 +5,7 @@ import {Navbar} from "./components/navbar/Navbar";
 //import Profile from "./components/profile/profile";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
-import Profile from "./components/profile/profile";
+import Profile from "./components/profile/Profile";
 
 
 function App() {
