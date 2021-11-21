@@ -2,34 +2,15 @@ import React from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
+import {dialogType, massageType} from "../../index";
 
 
-type dialogType ={
-  id: number,
-  name: string
+type propsType = {
+  dialogs: Array<dialogType>
+  messages: Array<massageType>
 }
-type massageType ={
-  id: number
-  message: string
-}
-const Dialogs = () => {
+const Dialogs = ({dialogs, messages}:propsType) => {
 
-  let dialogs:Array<dialogType> = [
-    {id: 1, name: 'Dimych'},
-    {id: 2, name: 'Andrew'},
-    {id: 3, name: 'Sveta'},
-    {id: 4, name: 'Sasha'},
-    {id: 5, name: 'Viktor'},
-    {id: 6, name: 'Valera'}
-  ]
-
-  let messages:Array<massageType> = [
-    {id: 1, message: 'Hi'},
-    {id: 2, message: 'How is your it-kamasutra?'},
-    {id: 3, message: 'Yo'},
-    {id: 4, message: 'Yo'},
-    {id: 5, message: 'Yo'}
-  ]
 
   let dialogsElements =  dialogs.map( d => <DialogItem key={d.id} name={d.name} id={d.id} />  );
   let messagesElements = messages.map( m => <Message key={m.id} message={m.message} /> );

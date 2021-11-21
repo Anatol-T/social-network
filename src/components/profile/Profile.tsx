@@ -2,16 +2,17 @@ import React from "react";
 //import s from './Profile.module.css';
 import MyPosts from './MyPosts/MyPosts';
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
+import {postType} from "../../index";
 
-// type RatingPropsType = {
-//   value: 0 | 1 | 2 | 3 | 4 | 5
-// }
 
-export default function Profile () {
+type propsType = {
+  posts: Array<postType>
+}
+export default function Profile ({posts}:propsType) {
   return (
     <div>
       <ProfileInfo/>
-      <MyPosts />
+      <MyPosts posts={posts}/>
     </div>
   )
 }
