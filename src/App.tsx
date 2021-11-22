@@ -6,14 +6,13 @@ import {Navbar} from "./components/navbar/Navbar";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
 import Profile from "./components/profile/Profile";
-import {dialogType, massageType, postType} from "./index";
+import {stateType} from "./redux/state";
 
 type propsType = {
-  posts: Array<postType>
-  dialogs: Array<dialogType>
-  messages: Array<massageType>
+  state: stateType
 }
-function App({posts, dialogs, messages}:propsType) {
+
+function App({state}: propsType) {
   return (
     <div className='app-wrapper'>
       <BrowserRouter>
@@ -21,9 +20,9 @@ function App({posts, dialogs, messages}:propsType) {
         <Navbar/>
         <div className='app-wrapper-content'>
           <Route path='/profile' render={() => <Profile
-          posts={posts}/>}/>
+            state={state.profilePage}/>}/>
           <Route path='/dialogs' render={() => <Dialogs
-            dialogs = {dialogs} messages={messages}/>}/>
+            state={state.messagesPage}/>}/>
           {/*<Route path='/profile' component={Profile}/>*/}
           {/*<Route path='/dialogs' component={Dialogs}/>*/}
         </div>

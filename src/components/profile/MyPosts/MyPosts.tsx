@@ -1,15 +1,16 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import {postType} from "../../../index";
+import {postType} from "../../../redux/state";
+
 
 type propsType = {
   posts: Array<postType>
 }
-const MyPosts = ({posts}:propsType) => {
+const MyPosts = ({posts}: propsType) => {
 
   let postsElements =
-    posts.map( p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>);
+    posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>);
   return (
     <div className={s.postsBlock}>
       <h3>My posts</h3>
@@ -22,7 +23,7 @@ const MyPosts = ({posts}:propsType) => {
         </div>
       </div>
       <div className={s.posts}>
-        { postsElements }
+        {postsElements}
       </div>
     </div>
   )
