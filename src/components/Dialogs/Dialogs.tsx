@@ -8,19 +8,19 @@ import {messagePageType} from "../../redux/state";
 type propsType = {
   state: messagePageType
 }
-const Dialogs = ({state}:propsType) => {
+const Dialogs = ({state}: propsType) => {
 
 
-  let dialogsElements =  state.dialogs.map( d => <DialogItem key={d.id} name={d.name} id={d.id} />  );
-  let messagesElements = state.messages.map( m => <Message key={m.id} message={m.message} /> );
+  let dialogsElements = state.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>);
+  let messagesElements = state.messages.map(m => <Message key={m.id} message={m.message}/>);
 
   return (
     <div className={s.dialogs}>
       <div className={s.dialogsItems}>
-        { dialogsElements }
+        {dialogsElements}
       </div>
       <div className={s.messages}>
-        { messagesElements }
+        {messagesElements}
       </div>
     </div>
   )
