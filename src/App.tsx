@@ -10,9 +10,10 @@ import {stateType} from "./redux/state";
 
 type propsType = {
   state: stateType
+  addPost: (message:string)=> void
 }
 
-function App({state}: propsType) {
+function App({state, addPost}: propsType) {
   return (
     <div className='app-wrapper'>
       <BrowserRouter>
@@ -20,7 +21,8 @@ function App({state}: propsType) {
         <Navbar/>
         <div className='app-wrapper-content'>
           <Route path='/profile' render={() => <Profile
-            state={state.profilePage}/>}/>
+            state={state.profilePage}
+            addPost={addPost}/>}/>
           <Route path='/dialogs' render={() => <Dialogs
             state={state.messagesPage}/>}/>
           {/*<Route path='/profile' component={Profile}/>*/}
