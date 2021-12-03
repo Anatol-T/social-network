@@ -15,7 +15,7 @@ type propsType = {
 const MyPosts = ({posts, newPostText, ...props}: propsType) => {
 
   let newPostElement = useRef<HTMLTextAreaElement>(null)
-  let addPost = ()=> {
+  const addPost = ()=> {
     props.addPost();
     props.updateNewPostText('')
   }

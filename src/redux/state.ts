@@ -1,4 +1,7 @@
-import {rerenderEntireTree} from "../render";
+//import {rerenderEntireTree} from "../index";
+let rerenderEntireTree = (state:stateType) => {
+  console.log(state)
+}
 
 export type dialogType = {
   id: number,
@@ -54,7 +57,7 @@ let state:stateType ={
   }
 }
 
-export let addPost = ()=> {
+export const addPost = ()=> {
   let newPost:postType = {
     id: Math.random(),
     message: state.profilePage.newPostText,
@@ -63,9 +66,11 @@ export let addPost = ()=> {
   state.profilePage.posts.push(newPost)
   rerenderEntireTree(state)
 }
-export let updateNewPostText = (text: string) => {
+export const updateNewPostText = (text: string) => {
   state.profilePage.newPostText = text
   rerenderEntireTree(state)
 }
-
+export const subscribe = (observer: (state:stateType) =>void) => {
+  rerenderEntireTree = observer;
+}
 export default state;
