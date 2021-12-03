@@ -10,10 +10,11 @@ import {stateType} from "./redux/state";
 
 type propsType = {
   state: stateType
-  addPost: (message:string)=> void
+  addPost: ()=> void
+  updateNewPostText: (text:string)=> void
 }
 
-function App({state, addPost}: propsType) {
+function App({state, updateNewPostText,addPost}: propsType) {
   return (
     <div className='app-wrapper'>
       <BrowserRouter>
@@ -22,6 +23,7 @@ function App({state, addPost}: propsType) {
         <div className='app-wrapper-content'>
           <Route path='/profile' render={() => <Profile
             state={state.profilePage}
+            updateNewPostText={updateNewPostText}
             addPost={addPost}/>}/>
           <Route path='/dialogs' render={() => <Dialogs
             state={state.messagesPage}/>}/>
