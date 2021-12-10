@@ -6,10 +6,10 @@ import {Navbar} from "./components/navbar/Navbar";
 import Dialogs from "./components/Dialogs/Dialogs";
 import {BrowserRouter, Route} from "react-router-dom";
 import Profile from "./components/profile/Profile";
-import {stateType} from "./redux/state";
+import {StateType} from "./redux/state";
 
 type propsType = {
-  state: stateType
+  state: StateType
   addPost: ()=> void
   updateNewPostText: (text:string)=> void
 }
