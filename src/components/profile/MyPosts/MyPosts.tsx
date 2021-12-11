@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import {postType} from "../../../redux/state";
+import {ActionType, addPostActionCreator, postType, updateNewPostActionCreator} from "../../../redux/state";
 
 
 
@@ -9,19 +9,19 @@ import {postType} from "../../../redux/state";
 type propsType = {
   posts: Array<postType>
   newPostText: string
-  updateNewPostText: (text:string)=> void
-  addPost: ()=> void
+  dispatch: (action: ActionType) => void
 }
 const MyPosts = ({posts, newPostText, ...props}: propsType) => {
 
   let newPostElement = useRef<HTMLTextAreaElement>(null)
   const addPost = ()=> {
-    props.addPost();
-    props.updateNewPostText('')
+    props.dispatch(addPostActionCreator());
+    props.dispatch(updateNewPostActionCreator(''))
   }
   const onPostChange = () => {
     let text = newPostElement.current!.value
-    props.updateNewPostText(text)
+    let action:ActionType = updateNewPostActionCreator(text);
+    props.dispatch(action)
   }
 
   let postsElements =
