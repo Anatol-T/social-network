@@ -21,6 +21,7 @@ export type profilePageType = {
 export type messagePageType = {
   dialogs: Array<dialogType>
   messages: Array<massageType>
+  newMessageBody: string
 }
 export type StateType = {
   profilePage: profilePageType
@@ -45,7 +46,15 @@ type ChangeNewTextActionType = {
   type: "UPDATE-NEW-POST-TEXT"
   newText: string
 }
+type ChangeNewMessageBodyActionType = {
+  type: "UPDATE-NEW-MESSAGE-BODY",
+  newBody: string
+}
+type SendMessageActionType = {
+  type: "SEND-MESSAGE"
+}
 export type ActionType = AddPostActionType | ChangeNewTextActionType
+| ChangeNewMessageBodyActionType | SendMessageActionType
 
 export let store: StoreType = {
   _state: {
@@ -73,7 +82,8 @@ export let store: StoreType = {
         {id: 3, message: 'Yo'},
         {id: 4, message: 'Yo'},
         {id: 5, message: 'Yo'}
-      ]
+      ],
+      newMessageBody: ''
     }
   },
   _callSubscriber() {
@@ -114,11 +124,23 @@ export let store: StoreType = {
     } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
       this._state.profilePage.newPostText = action.newText
       this._callSubscriber()
+    } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
+      this._state.messagesPage.newMessageBody = action.newBody
+      this._callSubscriber()
+    } else if (action.type === 'SEND-MESSAGE') {
+      let newMessage = {
+        id: Math.random(),
+        message: this._state.messagesPage.newMessageBody
+      }
+     this._state.messagesPage.messages.push(newMessage)
+      this._callSubscriber()
     }
   }
 }
 
 export const addPostActionCreator = () => ({type: "ADD-POST"}) as const;
 export const updateNewPostActionCreator = (text:string):ChangeNewTextActionType =>
-  ({type: "UPDATE-NEW-POST-TEXT", newText: text})
-
+  ({type: "UPDATE-NEW-POST-TEXT", newText: text});
+export const sendMessageCreator =():SendMessageActionType => ({type: "SEND-MESSAGE"});
+export const updateNewMessageBodyCreator = (text:string):ChangeNewMessageBodyActionType =>
+  ({type: "UPDATE-NEW-MESSAGE-BODY", newBody: text});

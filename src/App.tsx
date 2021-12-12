@@ -24,7 +24,8 @@ function App({state, dispatch}: propsType) {
             state={state.profilePage}
             dispatch={dispatch}/>}/>
           <Route path='/dialogs' render={() => <Dialogs
-            state={state.messagesPage}/>}/>
+            state={state.messagesPage}
+            dispatch={dispatch}/>}/>
           {/*<Route path='/profile' component={Profile}/>*/}
           {/*<Route path='/dialogs' component={Dialogs}/>*/}
         </div>
