@@ -1,6 +1,9 @@
 //import {rerenderEntireTree} from "../index";
 
 
+import profileReducer from "./profileReducer";
+import dialogsReducer from "./dialogsReducer";
+
 export type dialogType = {
   id: number,
   name: string
@@ -97,50 +100,39 @@ export let store: StoreType = {
     this._callSubscriber = observer;
   },
 
-  // addPost() {
-  //
-  //   let newPost: postType = {
-  //     id: Math.random(),
-  //     message: this._state.profilePage.newPostText,
-  //     likesCount: 0
-  //   }
-  //   this._state.profilePage.posts.push(newPost)
-  //   this._callSubscriber()
-  // }
-  // ,
-  // updateNewPostText(text) {
-  //   this._state.profilePage.newPostText = text
-  //   this._callSubscriber()
-  // },
+
   dispatch (action) {
-    if (action.type === 'ADD-POST') {
-      let newPost: postType = {
-        id: Math.random(),
-        message: this._state.profilePage.newPostText,
-        likesCount: 0
-      }
-      this._state.profilePage.posts.push(newPost)
-      this._callSubscriber()
-    } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-      this._state.profilePage.newPostText = action.newText
-      this._callSubscriber()
-    } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
-      this._state.messagesPage.newMessageBody = action.newBody
-      this._callSubscriber()
-    } else if (action.type === 'SEND-MESSAGE') {
-      let newMessage = {
-        id: Math.random(),
-        message: this._state.messagesPage.newMessageBody
-      }
-     this._state.messagesPage.messages.push(newMessage)
-      this._callSubscriber()
-    }
+    this._state = profileReducer(this._state, action);
+    this._state = dialogsReducer(this._state, action);
+    this._callSubscriber()
+    // if (action.type === 'ADD-POST') {
+    //   let newPost: postType = {
+    //     id: Math.random(),
+    //     message: this._state.profilePage.newPostText,
+    //     likesCount: 0
+    //   }
+    //   this._state.profilePage.posts.push(newPost)
+    //   this._callSubscriber()
+    // } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+    //   this._state.profilePage.newPostText = action.newText
+    //   this._callSubscriber()
+    // } else if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
+    //   this._state.messagesPage.newMessageBody = action.newBody
+    //   this._callSubscriber()
+    // } else if (action.type === 'SEND-MESSAGE') {
+    //   let newMessage = {
+    //     id: Math.random(),
+    //     message: this._state.messagesPage.newMessageBody
+    //   }
+    //  this._state.messagesPage.messages.push(newMessage)
+    //   this._callSubscriber()
+    // }
   }
 }
-
 export const addPostActionCreator = () => ({type: "ADD-POST"}) as const;
 export const updateNewPostActionCreator = (text:string):ChangeNewTextActionType =>
   ({type: "UPDATE-NEW-POST-TEXT", newText: text});
+
 export const sendMessageCreator =():SendMessageActionType => ({type: "SEND-MESSAGE"});
 export const updateNewMessageBodyCreator = (text:string):ChangeNewMessageBodyActionType =>
   ({type: "UPDATE-NEW-MESSAGE-BODY", newBody: text});
