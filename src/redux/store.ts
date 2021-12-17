@@ -21,14 +21,14 @@ export type profilePageType = {
   posts: Array<postType>
   newPostText: string
 }
-export type messagePageType = {
+export type dialogsPageType = {
   dialogs: Array<dialogType>
   messages: Array<massageType>
   newMessageBody: string
 }
 export type StateType = {
   profilePage: profilePageType
-  messagesPage: messagePageType
+  dialogsPage: dialogsPageType
 }
 export type StoreType = {
   _state: StateType
@@ -70,7 +70,7 @@ export let store: StoreType = {
       ],
       newPostText: ""
     },
-    messagesPage: {
+    dialogsPage: {
       dialogs: [
         {id: 1, name: 'Dimych'},
         {id: 2, name: 'Andrew'},
@@ -102,8 +102,8 @@ export let store: StoreType = {
 
 
   dispatch (action) {
-    this._state = profileReducer(this._state, action);
-    this._state = dialogsReducer(this._state, action);
+    this._state.profilePage = profileReducer(this._state.profilePage, action);
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
     this._callSubscriber()
     // if (action.type === 'ADD-POST') {
     //   let newPost: postType = {

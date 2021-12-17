@@ -1,33 +1,32 @@
-import {ActionType, postType, StateType} from "./state";
+import {ActionType, postType, profilePageType} from "./store";
 
-const profileReducer = (state:StateType, action: ActionType):StateType => {
+let initialState:profilePageType = {
+  posts: [
+    {id: 1, message: 'Hi, how are you?', likesCount: 12},
+    {id: 2, message: 'It\'s my first post', likesCount: 11},
+    {id: 3, message: 'Blabla', likesCount: 11},
+    {id: 4, message: 'Dada', likesCount: 11}
+  ],
+  newPostText: ""
+}
+const profileReducer = (state:profilePageType=initialState, action: ActionType):profilePageType => {
   switch (action.type) {
     case "ADD-POST":
       let newPost: postType = {
         id: Math.random(),
-        message: state.profilePage.newPostText,
+        message: state.newPostText,
         likesCount: 0
       }
-      state.profilePage.posts.push(newPost)
+      state.posts.push(newPost)
+     // state.profilePage.posts.push(newPost)
       return state;
     case "UPDATE-NEW-POST-TEXT":
-      state.profilePage.newPostText = action.newText
+      state.newPostText = action.newText
       return state;
     default:
       return state;
   }
 
-//   if (action.type === 'ADD-POST') {
-//     let newPost: postType = {
-//       id: Math.random(),
-//       message: state.profilePage.newPostText,
-//       likesCount: 0
-//     }
-//     state.profilePage.posts.push(newPost)
-//   } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
-//     state.profilePage.newPostText = action.newText
-//   }
-//   return state
 }
 
 export default profileReducer;

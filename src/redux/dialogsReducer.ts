@@ -1,29 +1,38 @@
-import {ActionType, StateType} from "./state";
+import {ActionType, dialogsPageType} from "./store";
 
- const dialogsReducer = (state:StateType, action: ActionType):StateType => {
+let initialState:dialogsPageType ={
+  dialogs: [
+    {id: 1, name: 'Dimych'},
+    {id: 2, name: 'Andrew'},
+    {id: 3, name: 'Sveta'},
+    {id: 4, name: 'Sasha'},
+    {id: 5, name: 'Viktor'},
+    {id: 6, name: 'Valera'}
+  ],
+  messages: [
+    {id: 1, message: 'Hi'},
+    {id: 2, message: 'How is your it-kamasutra?'},
+    {id: 3, message: 'Yo'},
+    {id: 4, message: 'Yo'},
+    {id: 5, message: 'Yo'}
+  ],
+  newMessageBody: ''
+}
+
+ const dialogsReducer = (state:dialogsPageType = initialState, action: ActionType):dialogsPageType => {
    switch (action.type) {
      case "UPDATE-NEW-MESSAGE-BODY":
-       state.messagesPage.newMessageBody = action.newBody
+       state.newMessageBody = action.newBody
        return state
      case "SEND-MESSAGE":
        let newMessage = {
          id: Math.random(),
-         message: state.messagesPage.newMessageBody
+         message: state.newMessageBody
        }
-       state.messagesPage.messages.push(newMessage)
+       state.messages.push(newMessage)
        return state
      default:
        return state
    }
-  // if (action.type === 'UPDATE-NEW-MESSAGE-BODY') {
-  //   state.messagesPage.newMessageBody = action.newBody
-  // } else if (action.type === 'SEND-MESSAGE') {
-  //   let newMessage = {
-  //     id: Math.random(),
-  //     message: state.messagesPage.newMessageBody
-  //   }
-  //   state.messagesPage.messages.push(newMessage)
-  // }
-  // return state
 }
 export default dialogsReducer;

@@ -4,15 +4,15 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {
   ActionType,
-  messagePageType,
+  dialogsPageType,
   sendMessageCreator,
   updateNewMessageBodyCreator,
-  updateNewPostActionCreator
-} from "../../redux/state";
+  //updateNewPostActionCreator
+} from "../../redux/store";
 
 
 type propsType = {
-  state: messagePageType
+  state: dialogsPageType
   dispatch: (action: ActionType) => void
 }
 const Dialogs = ({state, dispatch}: propsType) => {
