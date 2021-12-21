@@ -1,16 +1,17 @@
 import React, {useRef} from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import {postType} from "../../../redux/store";
+import { profilePageType} from "../../../redux/store";
 
 
 type propsType = {
-  posts: Array<postType>
-  newPostText: string
+  profilePage: profilePageType
+  // posts: Array<postType>
+  // newPostText: string
   addPost: () => void
   updateNewPostText: (text: string) => void
 }
-const MyPosts = ({posts, newPostText, ...props}: propsType) => {
+const MyPosts = ({profilePage, ...props}: propsType) => {
 
 
   let newPostElement = useRef<HTMLTextAreaElement>(null)
@@ -23,7 +24,7 @@ const MyPosts = ({posts, newPostText, ...props}: propsType) => {
   }
 
   let postsElements =
-    posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>);
+    profilePage.posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id}/>);
   return (
     <div className={s.postsBlock}>
       <h3>My posts</h3>
@@ -31,7 +32,7 @@ const MyPosts = ({posts, newPostText, ...props}: propsType) => {
         <div>
           <textarea ref={newPostElement}
                     onChange={onPostChange}
-                    value={newPostText}/>
+                    value={profilePage.newPostText}/>
         </div>
         <div>
           <button onClick={addPost}>Add post</button>
