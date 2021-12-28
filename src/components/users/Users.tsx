@@ -1,7 +1,17 @@
 import React from "react";
 import {UsersPropsType} from "./UsersContainer";
+import axios from "axios";
+import defaultAvatar from '../../assets/defaultAvatar.png'
 
 export function Users(props: UsersPropsType) {
+  if (props.usersPage.users.length === 0) {
+    axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
+      return response.data.items
+    }).then(users => {
+      console.log(users)
+      props.setUsers(users)
+    })
+  }
   return (
     <div>
       {
@@ -10,7 +20,7 @@ export function Users(props: UsersPropsType) {
             <div key={m.id}>
               <span>
                 <div>
-                  <span>Ꙫ</span>
+                  <img src={m.photos.small ? m.photos.small: defaultAvatar} alt="avatar"/>
                 </div>
                 <div>
                   {m.followed ? <button onClick={()=> props.unfollow(m.id)}>Unfollow</button>
@@ -18,12 +28,12 @@ export function Users(props: UsersPropsType) {
                 </div>
               </span>
               <span>
-                <div>{m.fullName}</div>
+                <div>{m.name}</div>
                 <div>{m.status}</div>
               </span>
               <span>
-                <div>{m.location.city}</div>
-                <div>{m.location.country}</div>
+                <div>{"city"}</div>
+                <div>{"country"}</div>
               </span>
             </div>
           )

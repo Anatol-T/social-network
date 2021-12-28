@@ -3,21 +3,17 @@
 export type UserType = {
   id: number
   followed: boolean
-  fullName: string
-  status: string
-  location: {
-    city: string
-    country: string
+  name: string
+  uniqueUrlName: string | null
+  status: string | null
+  photos: {
+    small: string | null
+    large: string | null
   }
 }
 export type UsersStateType = typeof initialState
 let initialState ={
-  users: [
-    {id: 1, followed: false, fullName: 'Dmitriy', status: 'I am a boss', location: {city: 'Minsk', country: 'Belarus'}},
-    {id: 2, followed: true, fullName: 'Sasha', status: 'I am a boss too', location: {city: 'Moscow', country: 'Russia'}},
-    {id: 3, followed: false, fullName: 'Andrew', status: 'I am a boss too', location: {city: 'Minsk', country: 'Belarus'}},
-
-  ] as Array<UserType>
+  users: [] as Array<UserType>
 }
 
  const usersReducer = (state:UsersStateType = initialState, action:ActionsType):UsersStateType => {
@@ -29,7 +25,7 @@ let initialState ={
        return {...state, users: state.users.map(m=>
            m.id === action.userID ? {...m, followed: false} : {...m})}
      case "SET-USERS":
-       return {...state}
+       return {users: action.users}
      default:
        return state
    }
