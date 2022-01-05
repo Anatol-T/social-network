@@ -1,0 +1,18 @@
+.pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    text-align: end;
+}
+.pageItem {
+    display: inline-block;
+    border: grey solid 2px;
+    cursor: pointer;
+    background-color: teal;
+    width: 45px;
+}
+.selectedPage {
+    color: red;
+    font-weight: bold;
+    background-color: blue;
+}

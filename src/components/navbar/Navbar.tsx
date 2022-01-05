@@ -2,9 +2,6 @@ import React from "react";
 import s from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
 
-// type RatingPropsType = {
-//   value: 0 | 1 | 2 | 3 | 4 | 5
-// }
 
 export function Navbar() {
   return <nav className={s.nav}>
