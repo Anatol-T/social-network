@@ -43,10 +43,10 @@ class UsersAPI extends React.Component<UsersPropsType> {
       <>
         {this.props.usersPage.isFetching && <Preloader/>}
         <Users usersPage={this.props.usersPage}
-                follow={this.props.follow}
-                unfollow={this.props.unfollow}
-                onPageChanged={this.onPageChanged}
-      /></>
+               follow={this.props.follow}
+               unfollow={this.props.unfollow}
+               onPageChanged={this.onPageChanged}
+        /></>
     )
   }
 }
@@ -67,9 +67,9 @@ type MapDispatchPropsType = {
   follow: (userID: number) => void
   unfollow: (userID: number) => void
   setUsers: (users: Array<UserType>) => void
-  setCurrentPage: (newPage: number)=> void
-  setTotalCount: (totalCount:number)=> void
-  toggleIsFetching: (isFetching: boolean)=> void
+  setCurrentPage: (newPage: number) => void
+  setTotalCount: (totalCount: number) => void
+  toggleIsFetching: (isFetching: boolean) => void
 }
 // const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 //   return (

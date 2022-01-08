@@ -3,6 +3,7 @@ import defaultAvatar from '../../assets/defaultAvatar.png'
 import {range} from "../../helpers/utils";
 import stl from "./users.module.css"
 import {UsersStateType} from "../../redux/usersReducer";
+import { NavLink } from "react-router-dom";
 
 type propsType = {
   usersPage: UsersStateType
@@ -37,10 +38,10 @@ export function Users(props: propsType) {
           return (
             <div key={m.id}>
               <span>
-                <div>
+                <NavLink to={'/profile/' + m.id}>
                   <img src={m.photos.small ? m.photos.small : defaultAvatar} alt="avatar"
                        style={{width: "50px", height: "50px", borderRadius: "50%"}}/>
-                </div>
+                </NavLink>
                 <div>
                   {m.followed ? <button onClick={() => props.unfollow(m.id)}>Unfollow</button>
                     : <button onClick={() => props.follow(m.id)}>Follow</button>}

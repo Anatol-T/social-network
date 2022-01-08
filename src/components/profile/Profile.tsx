@@ -1,17 +1,17 @@
 import React from "react";
 
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-//import {Store} from "redux";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
+import {ProfilePropsType} from "./ProfileContainer";
 
 
 // type propsType = {
 //   store: Store
 // }
-export default function Profile () {
+export default function Profile (props: ProfilePropsType) {
   return (
     <div>
-      <ProfileInfo/>
+      <ProfileInfo {...props}/>
       <MyPostsContainer />
     </div>
   )

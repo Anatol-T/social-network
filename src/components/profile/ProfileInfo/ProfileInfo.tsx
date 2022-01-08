@@ -1,8 +1,14 @@
 import React from 'react';
 import s from './ProfileInfo.module.css';
+import {ProfilePropsType} from "../ProfileContainer";
+import {Preloader} from "../../common/Preloader";
 
 
-const ProfileInfo = () => {
+const ProfileInfo = (props: ProfilePropsType) => {
+  if (!props.profile) {
+    return <Preloader/>
+  }
+  //console.log(props.profile.fullName)
   return (
     <div>
       <div>
@@ -11,6 +17,7 @@ const ProfileInfo = () => {
           alt='pct'/>
       </div>
       <div className={s.descriptionBlock}>
+        <img src={props.profile.photos.large? props.profile.photos.large: ""} alt={props.profile.fullName}/>
         ava + description
       </div>
     </div>
