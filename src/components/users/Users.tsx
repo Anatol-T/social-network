@@ -4,6 +4,7 @@ import {range} from "../../helpers/utils";
 import stl from "./users.module.css"
 import {UsersStateType} from "../../redux/usersReducer";
 import { NavLink } from "react-router-dom";
+import axios from "axios";
 
 type propsType = {
   usersPage: UsersStateType
@@ -18,6 +19,30 @@ export function Users(props: propsType) {
   const endPage = (props.usersPage.currentPage + 20 - startPage) > pageCount ? pageCount : startPage + 19;
 
   const pages = range(startPage, endPage)
+
+  const follow = (id: number) => {
+    axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {},
+      {withCredentials: true,
+        headers: {"API-KEY": "ef43bd75-8438-40b6-8849-600e54b7eb04"}
+      })
+      .then(response => {
+        if (response.data.resultCode === 0) {
+          props.follow(id)
+        }
+      })
+  }
+  const unfollow = (id: number) => {
+    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`,
+      {withCredentials: true,
+      headers: {"API-KEY": "ef43bd75-8438-40b6-8849-600e54b7eb04"}
+      })
+      .then(response => {
+        if (response.data.resultCode === 0) {
+          props.unfollow(id)
+        }
+      })
+  }
+
   return (
     <div>
       <div className={stl.pagination}>
@@ -43,8 +68,8 @@ export function Users(props: propsType) {
                        style={{width: "50px", height: "50px", borderRadius: "50%"}}/>
                 </NavLink>
                 <div>
-                  {m.followed ? <button onClick={() => props.unfollow(m.id)}>Unfollow</button>
-                    : <button onClick={() => props.follow(m.id)}>Follow</button>}
+                  {m.followed ? <button onClick={() => unfollow(m.id)}>Unfollow</button>
+                    : <button onClick={() => follow(m.id)}>Follow</button>}
                 </div>
               </span>
               <span>
