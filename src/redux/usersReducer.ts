@@ -17,17 +17,20 @@ let initialState ={
   pageSize: 5,
   totalUsersCount: 0,
   currentPage: 1,
-  isFetching: false
+  isFetching: false,
+  followingInProgress: [] as Array<number>
 }
 
  const usersReducer = (state:UsersStateType = initialState, action:ActionsType):UsersStateType => {
    switch (action.type) {
      case "FOLLOW":
        return {...state, users: state.users.map(m=>
-           m.id === action.userID ? {...m, followed: true} : {...m})}
+           m.id === action.userID ? {...m, followed: true} : {...m}),
+       followingInProgress: state.followingInProgress.filter(f=> f !== action.userID)}
      case "UNFOLLOW":
        return {...state, users: state.users.map(m=>
-           m.id === action.userID ? {...m, followed: false} : {...m})}
+           m.id === action.userID ? {...m, followed: false} : {...m}),
+         followingInProgress: state.followingInProgress.filter(f=> f !== action.userID)}
      case "SET-USERS":
        return {...state, users: action.users}
      case "SET-TOTAL-COUNT":
@@ -36,19 +39,22 @@ let initialState ={
        return {...state, currentPage: action.newPage}
      case "TOGGLE-IS-FETCHING":
        return {...state, isFetching: action.isFetching}
+     case "ADD-FOLLOWING":
+       return {...state, followingInProgress: [...state.followingInProgress, action.id]}
      default:
        return state
    }
 }
 
 type ActionsType = FollowACType | UnfollowACType | ToggleIsFetchingACType |
-  SetUsersACType | SetCurrentPageACType | SetTotalCountACType
+  SetUsersACType | SetCurrentPageACType | SetTotalCountACType | ToggleFollowingACType
 type FollowACType = ReturnType<typeof followAC>
 type UnfollowACType = ReturnType<typeof unfollowAC>
 type SetUsersACType = ReturnType<typeof setUsersAC>
 type SetCurrentPageACType = ReturnType<typeof setCurrentPageAC>
 type SetTotalCountACType = ReturnType<typeof setTotalCountAC>
 type ToggleIsFetchingACType = ReturnType<typeof toggleIsFetchingAC>
+type ToggleFollowingACType = ReturnType<typeof toggleFollowingAC>
 
 export const followAC = (userID: number) => {
   return {
@@ -84,6 +90,12 @@ export const toggleIsFetchingAC = (isFetching: boolean)=> {
   return {
     type: "TOGGLE-IS-FETCHING",
     isFetching
+  } as const
+}
+export const toggleFollowingAC = (id: number)=> {
+  return {
+    type: "ADD-FOLLOWING",
+    id
   } as const
 }
 

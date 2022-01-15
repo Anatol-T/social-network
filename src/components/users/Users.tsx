@@ -11,6 +11,7 @@ type propsType = {
   follow: (userID: number) => void
   unfollow: (userID: number) => void
   onPageChanged: (newPage: number) => void
+  toggleFollowing: (id: number)=> void
 }
 
 export function Users(props: propsType) {
@@ -21,6 +22,7 @@ export function Users(props: propsType) {
   const pages = range(startPage, endPage)
 
   const follow = (id: number) => {
+    props.toggleFollowing(id)
     axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {},
       {withCredentials: true,
         headers: {"API-KEY": "ef43bd75-8438-40b6-8849-600e54b7eb04"}
@@ -28,10 +30,12 @@ export function Users(props: propsType) {
       .then(response => {
         if (response.data.resultCode === 0) {
           props.follow(id)
+          // props.toggleFollowing()
         }
       })
   }
   const unfollow = (id: number) => {
+    props.toggleFollowing(id)
     axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`,
       {withCredentials: true,
       headers: {"API-KEY": "ef43bd75-8438-40b6-8849-600e54b7eb04"}
@@ -39,6 +43,7 @@ export function Users(props: propsType) {
       .then(response => {
         if (response.data.resultCode === 0) {
           props.unfollow(id)
+          // props.toggleFollowing()
         }
       })
   }
@@ -68,8 +73,9 @@ export function Users(props: propsType) {
                        style={{width: "50px", height: "50px", borderRadius: "50%"}}/>
                 </NavLink>
                 <div>
-                  {m.followed ? <button onClick={() => unfollow(m.id)}>Unfollow</button>
-                    : <button onClick={() => follow(m.id)}>Follow</button>}
+                  {m.followed
+                    ? <button onClick={() => unfollow(m.id)} disabled={props.usersPage.followingInProgress.some(id => id === m.id)}>Unfollow</button>
+                    : <button onClick={() => follow(m.id)} disabled={props.usersPage.followingInProgress.some(id => id === m.id)}>Follow</button>}
                 </div>
               </span>
               <span>

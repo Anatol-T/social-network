@@ -5,7 +5,7 @@ import {
   followAC,
   setCurrentPageAC,
   setTotalCountAC,
-  setUsersAC, toggleIsFetchingAC,
+  setUsersAC, toggleFollowingAC, toggleIsFetchingAC,
   unfollowAC,
   UsersStateType,
   UserType
@@ -13,14 +13,14 @@ import {
 //import {Dispatch} from "redux";
 import React from "react";
 import {Preloader} from "../common/Preloader";
-import {sn_API} from "../../api/sn_API";
+import {API} from "../../api/API";
 
 class UsersAPI extends React.Component<UsersPropsType> {
 
   componentDidMount() {
     this.props.toggleIsFetching(true)
 
-    sn_API.getUsers(this.props.usersPage.currentPage, this.props.usersPage.pageSize)
+    API.getUsers(this.props.usersPage.currentPage, this.props.usersPage.pageSize)
       .then(data => {
         this.props.toggleIsFetching(false)
         this.props.setUsers(data.items)
@@ -33,7 +33,7 @@ class UsersAPI extends React.Component<UsersPropsType> {
     this.props.toggleIsFetching(true)
     this.props.setCurrentPage(newPage)
 
-    sn_API.getUsers(newPage, this.props.usersPage.pageSize)
+    API.getUsers(newPage, this.props.usersPage.pageSize)
       .then(data => {
         this.props.toggleIsFetching(false)
         this.props.setUsers(data.items)
@@ -48,6 +48,7 @@ class UsersAPI extends React.Component<UsersPropsType> {
                follow={this.props.follow}
                unfollow={this.props.unfollow}
                onPageChanged={this.onPageChanged}
+               toggleFollowing={this.props.toggleFollowing}
         /></>
     )
   }
@@ -72,6 +73,7 @@ type MapDispatchPropsType = {
   setCurrentPage: (newPage: number) => void
   setTotalCount: (totalCount: number) => void
   toggleIsFetching: (isFetching: boolean) => void
+  toggleFollowing: (id: number) => void
 }
 // const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
 //   return (
@@ -105,4 +107,5 @@ export const UsersContainer = connect(mapStateToProps, {
   setTotalCount: setTotalCountAC,
   setCurrentPage: setCurrentPageAC,
   toggleIsFetching: toggleIsFetchingAC,
+  toggleFollowing: toggleFollowingAC
 })(UsersAPI)

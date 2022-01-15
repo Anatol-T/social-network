@@ -8,7 +8,7 @@ const instanceAxios = axios.create({
   }
 })
 
-export const sn_API = {
+export const API = {
   getUsers(currentPage: number = 1, pageSize: number = 10) {
     return instanceAxios.get(`users?page=${currentPage}&count=${pageSize}`)
       .then(response => response.data)
