@@ -15,6 +15,7 @@ import {Preloader} from "../common/Preloader";
 function Header() {
   const dispatch = useDispatch()
   const auth = useSelector<AppStateType, AuthStateType>(state=> state.auth)
+
   useEffect(()=> {
     dispatch(getUserDataAC())
     axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`,
@@ -26,6 +27,7 @@ function Header() {
         }
       })
   },[dispatch])
+
   return <header className={stl.header}>
     {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuHgiTmJ_fhWk7tm8geycwaPonO8jglKuEyw&usqp=CAU" alt="image"/>
