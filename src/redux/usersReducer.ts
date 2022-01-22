@@ -1,3 +1,5 @@
+import {API} from "../api/API";
+import {Dispatch} from "redux";
 
 
 export type UserType = {
@@ -100,3 +102,46 @@ export const toggleFollowingAC = (id: number)=> {
 }
 
 export default usersReducer;
+
+export const getUsersTC = (currentPage:number, pageSize:number) => {
+  return (dispatch:Dispatch) => {
+    dispatch(setUsersAC([]))
+    dispatch(toggleIsFetchingAC(true))
+    dispatch(setCurrentPageAC(currentPage))
+
+    API.getUsers(currentPage, pageSize)
+      .then(data => {
+        dispatch(toggleIsFetchingAC(false))
+        dispatch(setUsersAC(data.items))
+        dispatch(setTotalCountAC(+data.totalCount))
+      })
+  }
+}
+
+export const followTC = (userID:number)=> {
+  return (dispatch:Dispatch) => {
+    dispatch(toggleFollowingAC(userID))
+    API.follow(userID)
+      // axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {},
+      //   {withCredentials: true,
+      //     headers: {"API-KEY": "ef43bd75-8438-40b6-8849-600e54b7eb04"}
+      //   })
+      .then(response => {
+        if (response.data.resultCode === 0) {
+          dispatch(followAC(userID))
+        }
+      })
+  }
+}
+
+export const unfollowTC = (userID:number)=> {
+  return (dispatch:Dispatch) => {
+    dispatch(toggleFollowingAC(userID))
+    API.unfollow(userID)
+      .then(response => {
+        if (response.data.resultCode === 0) {
+          dispatch(unfollowAC(userID))
+        }
+      })
+  }
+}

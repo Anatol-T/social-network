@@ -4,14 +4,13 @@ import {range} from "../../helpers/utils";
 import stl from "./users.module.css"
 import {UsersStateType} from "../../redux/usersReducer";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
 
 type propsType = {
   usersPage: UsersStateType
   follow: (userID: number) => void
   unfollow: (userID: number) => void
   onPageChanged: (newPage: number) => void
-  toggleFollowing: (id: number)=> void
+  //toggleFollowing: (id: number)=> void
 }
 
 export function Users(props: propsType) {
@@ -22,30 +21,10 @@ export function Users(props: propsType) {
   const pages = range(startPage, endPage)
 
   const follow = (id: number) => {
-    props.toggleFollowing(id)
-    axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {},
-      {withCredentials: true,
-        headers: {"API-KEY": "ef43bd75-8438-40b6-8849-600e54b7eb04"}
-      })
-      .then(response => {
-        if (response.data.resultCode === 0) {
-          props.follow(id)
-          // props.toggleFollowing()
-        }
-      })
+    props.follow(id)
   }
   const unfollow = (id: number) => {
-    props.toggleFollowing(id)
-    axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`,
-      {withCredentials: true,
-      headers: {"API-KEY": "ef43bd75-8438-40b6-8849-600e54b7eb04"}
-      })
-      .then(response => {
-        if (response.data.resultCode === 0) {
-          props.unfollow(id)
-          // props.toggleFollowing()
-        }
-      })
+    props.unfollow(id)
   }
 
   return (
