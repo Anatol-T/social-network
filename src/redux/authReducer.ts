@@ -1,3 +1,5 @@
+import {Dispatch} from "redux";
+import {authAPI} from "../api/API";
 
 export type AuthStateType = {
   userID: number | null,
@@ -44,4 +46,16 @@ export const getUserDataAC = () => {
   return {
     type: "GET-USER-DATA",
   } as const
+}
+
+export const getUserDataTC = () => (dispatch: Dispatch) => {
+  dispatch(getUserDataAC())
+  authAPI.getMe()
+    .then(response => {
+      if (response.data.resultCode === 0) {
+        console.log('fetch')
+        const {id, email, login} = response.data.data
+        dispatch(setUserDataAC(id, email, login))
+      }
+    })
 }
