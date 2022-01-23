@@ -5,33 +5,15 @@ import {AppStateType} from "../../redux/redux-store";
 import {DialogsPageType, sendMessageAC, updateNewMessageBodyAC} from "../../redux/dialogsReducer";
 
 
-// type propsType = {
-//   store: Store
-// }
-// const DialogsContainer = ({store}: propsType) => {
-//   const state:dialogsPageType = store.getState().dialogsPage
-//
-//
-//   const onNewMessageChange = (text:string) =>{
-//     const action:ActionType = updateNewMessageBodyCreator(text)
-//     store.dispatch(action)
-//   }
-//   const onSendMassageClick = () => {
-//     store.dispatch(sendMessageCreator())
-//     store.dispatch(updateNewMessageBodyCreator(''))
-//   }
-//   return (
-//     <Dialogs dialogsPage={state}
-//       updateNewMassageBody={onNewMessageChange} sendMessage={onSendMassageClick}/>
-//   )
-// }
 type MapStatePropsType = {
   dialogsPage: DialogsPageType
+  isAuth: boolean
 }
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return (
     {
-      dialogsPage: state.dialogsPage
+      dialogsPage: state.dialogsPage,
+      isAuth: state.auth.isAuth
     }
   )
 }

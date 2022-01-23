@@ -22,14 +22,17 @@ export const authReducer = (state:AuthStateType = initialState, action:AuthACTyp
       return {...state, ...action.payload, isAuth: true, isFetching: false}
     case "GET-USER-DATA":
       return {...state, isFetching: true}
+    case "SET-FAIL-AUTH":
+      return {...state, isFetching: false}
     default:
       return state
   }
 }
 
-type AuthACType = SetUserDataType | GetUserDataType
+type AuthACType = SetUserDataType | GetUserDataType | SetFailAuthType
 type SetUserDataType = ReturnType<typeof setUserDataAC>
 type GetUserDataType = ReturnType<typeof getUserDataAC>
+type SetFailAuthType = ReturnType<typeof setFailAuth>
 
 export const setUserDataAC = (userID: number, email: string, login: string) => {
   return {
@@ -47,6 +50,11 @@ export const getUserDataAC = () => {
     type: "GET-USER-DATA",
   } as const
 }
+const setFailAuth = () => {
+  return {
+    type: "SET-FAIL-AUTH",
+  } as const
+}
 
 export const getUserDataTC = () => (dispatch: Dispatch) => {
   dispatch(getUserDataAC())
@@ -56,6 +64,8 @@ export const getUserDataTC = () => (dispatch: Dispatch) => {
         console.log('fetch')
         const {id, email, login} = response.data.data
         dispatch(setUserDataAC(id, email, login))
+      } else {
+        dispatch(setFailAuth())
       }
     })
 }
