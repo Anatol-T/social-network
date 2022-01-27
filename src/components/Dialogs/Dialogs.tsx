@@ -6,7 +6,7 @@ import {DialogPropsType} from "./DialogsContainer";
 import {Redirect} from "react-router-dom";
 
 
-const Dialogs = ({dialogsPage, updateNewMassageBody, sendMessage, isAuth}: DialogPropsType) => {
+const Dialogs = ({dialogsPage, updateNewMassageBody, sendMessage}: DialogPropsType) => {
 
   let dialogsElements = dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>);
   let messagesElements = dialogsPage.messages.map(m => <Message key={m.id} message={m.message}/>);
@@ -19,7 +19,7 @@ const Dialogs = ({dialogsPage, updateNewMassageBody, sendMessage, isAuth}: Dialo
     sendMessage()
   }
 
-  if (!isAuth) return <Redirect to={'/login'}/>
+  //if (!isAuth) return <Redirect to={'/login'}/>
 
   return (
     <div className={s.dialogs}>
