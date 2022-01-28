@@ -17,7 +17,7 @@ function App() {
         <Navbar/>
         <div className='app-wrapper-content'>
           <Route path='/profile/:userID?' render={() => <ProfileContainer/>}/>
-          <Route path='/dialogs' render={() => <DialogsContainer />}/>
+          <Route path='/dialogs' component={DialogsContainer}/>
           <Route path='/users' component={UsersContainer}/>
           <Route path='/login' component={LoginPage}/>
           {/*<Route path='/dialogs' component={Dialogs}/>*/}
