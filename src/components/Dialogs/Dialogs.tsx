@@ -18,7 +18,6 @@ const Dialogs = ({dialogsPage, updateNewMassageBody, sendMessage}: DialogPropsTy
     sendMessage()
   }
 
-  //if (!isAuth) return <Redirect to={'/login'}/>
 
   return (
     <div className={s.dialogs}>
