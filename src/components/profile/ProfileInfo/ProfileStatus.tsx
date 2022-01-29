@@ -10,6 +10,15 @@ export class ProfileStatus extends PureComponent<PropsType> {
     editMode: false,
     status: this.props.status
   }
+
+  componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<{}>) {
+    if (prevProps.status !== this.props.status) {
+      this.setState({
+        status: this.props.status
+      })
+    }
+  }
+
   setEditMode = () => {
     this.setState({editMode: true})
   }

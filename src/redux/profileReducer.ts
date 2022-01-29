@@ -1,5 +1,5 @@
 import {Dispatch} from "redux";
-import {profileAPI, userAPI} from "../api/API";
+import {profileAPI} from "../api/API";
 
 export type PostType = {
   id: number,
