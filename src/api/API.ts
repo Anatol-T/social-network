@@ -13,19 +13,28 @@ export const userAPI = {
     return instanceAxios.get(`users?page=${currentPage}&count=${pageSize}`)
       .then(response => response.data)
   },
-  follow (userID:number) {
+  follow(userID: number) {
     return instanceAxios.post(`follow/${userID}`)
   },
-  unfollow (userID:number) {
+  unfollow(userID: number) {
     return instanceAxios.delete(`follow/${userID}`)
   },
-  getProfile (userID:number) {
+}
+
+export const profileAPI = {
+  getProfile(userID: number) {
     return instanceAxios.get(`profile/${userID}`)
-  }
+  },
+  getStatus(userID: number) {
+    return instanceAxios.get(`profile/status/${userID}`)
+  },
+  updateStatus (status: string) {
+    return instanceAxios.put(`profile/status`, {status: status})
+  },
 }
 
 export const authAPI = {
-  getMe () {
+  getMe() {
     return instanceAxios.get(`auth/me`)
   },
 }
