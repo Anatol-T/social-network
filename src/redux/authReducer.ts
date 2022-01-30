@@ -69,3 +69,24 @@ export const getUserDataTC = () => (dispatch: Dispatch) => {
       }
     })
 }
+export const loginTC = (email: string, password: string, rememberMe:boolean) => (dispatch: Dispatch) => {
+  dispatch(getUserDataAC())
+  authAPI.login(email, password, rememberMe)
+    .then(response => {
+      if (response.data.resultCode === 0) {
+        return true
+      } else {
+        dispatch(setFailAuth())
+      }
+    })
+    .then(_ => authAPI.getMe()
+      .then(response => {
+        if (response.data.resultCode === 0) {
+          console.log('fetch')
+          const {id, email, login} = response.data.data
+          dispatch(setUserDataAC(id, email, login))
+        } else {
+          dispatch(setFailAuth())
+        }
+      }))
+}

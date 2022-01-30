@@ -37,4 +37,10 @@ export const authAPI = {
   getMe() {
     return instanceAxios.get(`auth/me`)
   },
+  login(email: string, password: string, rememberMe:boolean) {
+    return instanceAxios.post('auth/login', {email, password, rememberMe})
+  },
+  logout() {
+    return instanceAxios.delete('auth/login')
+  },
 }
