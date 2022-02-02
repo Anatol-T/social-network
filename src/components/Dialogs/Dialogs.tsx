@@ -1,21 +1,23 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, useState} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogPropsType} from "./DialogsContainer";
 
 
-const Dialogs = ({dialogsPage, updateNewMassageBody, sendMessage}: DialogPropsType) => {
+const Dialogs = ({dialogsPage, sendMessage}: DialogPropsType) => {
+  const [newMassage, setNewMassage] = useState<string>('')
 
   let dialogsElements = dialogsPage.dialogs.map(d => <DialogItem key={d.id} name={d.name} id={d.id}/>);
   let messagesElements = dialogsPage.messages.map(m => <Message key={m.id} message={m.message}/>);
 
   const onChangeHandler = (e:ChangeEvent<HTMLTextAreaElement>) =>{
     const text = e.currentTarget.value;
-   updateNewMassageBody(text)
+    setNewMassage(text)
   }
   const onClickHandler = () => {
-    sendMessage()
+    sendMessage(newMassage)
+    setNewMassage('')
   }
 
 
@@ -27,7 +29,7 @@ const Dialogs = ({dialogsPage, updateNewMassageBody, sendMessage}: DialogPropsTy
       <div className={s.messages}>
         {messagesElements}
         <div>
-          <textarea onChange={onChangeHandler} value={dialogsPage.newMessageBody}/>
+          <textarea onChange={onChangeHandler} value={newMassage}/>
         </div>
         <div >
           <button onClick={onClickHandler}>Send Message</button>

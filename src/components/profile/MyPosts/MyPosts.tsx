@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import {MyPostsPropsType} from "./MyPostsContainer";
@@ -6,14 +6,16 @@ import {MyPostsPropsType} from "./MyPostsContainer";
 
 const MyPosts = ({profilePage, ...props}: MyPostsPropsType) => {
 
+  const [postText, setPostText] = useState<string>('')
 
   let newPostElement = useRef<HTMLTextAreaElement>(null)
   const addPost = () => {
-    props.addPost()
+    props.addPost(postText)
+    setPostText('')
   }
   const onPostChange = () => {
     let text = newPostElement.current!.value
-    props.updateNewPostText(text)
+    setPostText(text)
   }
 
   let postsElements =
@@ -25,7 +27,7 @@ const MyPosts = ({profilePage, ...props}: MyPostsPropsType) => {
         <div>
           <textarea ref={newPostElement}
                     onChange={onPostChange}
-                    value={profilePage.newPostText}/>
+                    value={postText}/>
         </div>
         <div>
           <button onClick={addPost}>Add post</button>

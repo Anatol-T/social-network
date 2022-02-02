@@ -1,6 +1,6 @@
 import React from 'react';
 import  {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {loginTC} from "../../redux/authReducer";
+
 
 export function LoginPage  ()  {
   const onSubmit = (formData:FormDataType) => {

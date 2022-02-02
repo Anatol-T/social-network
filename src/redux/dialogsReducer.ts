@@ -24,34 +24,25 @@ const initialState = {
     {id: 4, message: 'Yo'},
     {id: 5, message: 'Yo'}
   ] as Array<MassageType>,
-  newMessageBody: ''
 }
 
- const dialogsReducer = (state:DialogsPageType = initialState, action: ActionsType):DialogsPageType => {
-   switch (action.type) {
-     case "UPDATE-NEW-MESSAGE-BODY":
-       return {...state, newMessageBody: action.newBody}
-     case "SEND-MESSAGE":
-       let newMessage = {
-         id: Math.random(),
-         message: state.newMessageBody
-       }
-       return {...state, messages: [ ...state.messages, newMessage], newMessageBody: ""}
-     default:
-       return state
-   }
+const dialogsReducer = (state: DialogsPageType = initialState, action: ActionsType): DialogsPageType => {
+  switch (action.type) {
+    case "SEND-MESSAGE":
+      let newMessage = {
+        id: Math.random(),
+        message: action.newMassage
+      }
+      return {...state, messages: [...state.messages, newMessage]}
+    default:
+      return state
+  }
 }
 export default dialogsReducer;
 
-type ActionsType = ChangeNewMessageBodyActionType | SendMessageActionType;
+type ActionsType = SendMessageActionType;
 
-type ChangeNewMessageBodyActionType = ReturnType<typeof updateNewMessageBodyAC>
 type SendMessageActionType = ReturnType<typeof sendMessageAC>
 
-export const sendMessageAC =() => ({type: "SEND-MESSAGE"}) as const;
-export const updateNewMessageBodyAC = (text:string) => {
-  return {
-    type: "UPDATE-NEW-MESSAGE-BODY",
-    newBody: text
-  } as const
-}
+export const sendMessageAC = (newMassage: string) => (
+  {type: "SEND-MESSAGE", newMassage}) as const;
