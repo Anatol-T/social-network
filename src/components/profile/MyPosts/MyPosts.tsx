@@ -1,21 +1,16 @@
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import {MyPostsPropsType} from "./MyPostsContainer";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {maxLengthCreator, requiredField} from "../../../utils/validators/validators";
+import {TextArea} from "../../common/TextArea";
 
 
 const MyPosts = ({profilePage, ...props}: MyPostsPropsType) => {
 
-  const [postText, setPostText] = useState<string>('')
-
-  let newPostElement = useRef<HTMLTextAreaElement>(null)
-  const addPost = () => {
-    props.addPost(postText)
-    setPostText('')
-  }
-  const onPostChange = () => {
-    let text = newPostElement.current!.value
-    setPostText(text)
+  const addPost = (postText:PostFormType) => {
+    props.addPost(postText.postText)
   }
 
   let postsElements =
@@ -24,14 +19,7 @@ const MyPosts = ({profilePage, ...props}: MyPostsPropsType) => {
     <div className={s.postsBlock}>
       <h3>My posts</h3>
       <div>
-        <div>
-          <textarea ref={newPostElement}
-                    onChange={onPostChange}
-                    value={postText}/>
-        </div>
-        <div>
-          <button onClick={addPost}>Add post</button>
-        </div>
+        <AddNewPostFormRedux onSubmit={addPost}/>
       </div>
       <div className={s.posts}>
         {postsElements}
@@ -42,3 +30,23 @@ const MyPosts = ({profilePage, ...props}: MyPostsPropsType) => {
 }
 
 export default MyPosts;
+
+type PostFormType = {
+  postText: string
+}
+const maxLength20 = maxLengthCreator(20)
+
+const AddNewPostForm: React.FC<InjectedFormProps<PostFormType>> = (props) => {
+
+  return (
+    <form onSubmit={props.handleSubmit}>
+      <Field className={s.textArea} name="postText" component={TextArea}
+      validate={[requiredField, maxLength20]}/>
+      <div>
+        <button>Add post</button>
+      </div>
+    </form>
+  )
+}
+
+const AddNewPostFormRedux = reduxForm<PostFormType>({form: 'addNewPost'})(AddNewPostForm)

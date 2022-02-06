@@ -5,3 +5,7 @@
 .posts {
     margin-top: 10px;
 }
+.textArea {
+    border-radius: 10px;
+    padding: 5px;
+}
