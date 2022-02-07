@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../api/API";
+import {ThunkDispatch} from "redux-thunk";
 
 export type AuthStateType = {
   userID: number | null,
@@ -23,7 +24,7 @@ export const authReducer = (state:AuthStateType = initialState, action:AuthACTyp
     case "GET-USER-DATA":
       return {...state, isFetching: true}
     case "SET-FAIL-AUTH":
-      return {...state, isFetching: false}
+      return {...state, isFetching: false, isAuth: false}
     default:
       return state
   }
@@ -69,24 +70,23 @@ export const getUserDataTC = () => (dispatch: Dispatch) => {
       }
     })
 }
-export const loginTC = (email: string, password: string, rememberMe:boolean) => (dispatch: Dispatch) => {
+export const loginTC = (email: string, password: string, rememberMe:boolean) => (dispatch:ThunkDispatch<any, any, any>) => {
   dispatch(getUserDataAC())
   authAPI.login(email, password, rememberMe)
     .then(response => {
       if (response.data.resultCode === 0) {
-        return true
+        dispatch(getUserDataTC())
       } else {
         dispatch(setFailAuth())
       }
     })
-    .then(_ => authAPI.getMe()
-      .then(response => {
-        if (response.data.resultCode === 0) {
-          console.log('fetch')
-          const {id, email, login} = response.data.data
-          dispatch(setUserDataAC(id, email, login))
-        } else {
-          dispatch(setFailAuth())
-        }
-      }))
+}
+
+export const logoutTC = () => (dispatch: Dispatch) => {
+  authAPI.logout()
+    .then(response => {
+      if (response.data.resultCode === 0) {
+        dispatch(setFailAuth())
+      }
+    })
 }

@@ -17,3 +17,7 @@
 .loginBlock a {
   color: beige;
 }
+.logoutButton {
+    border-radius: 5px;
+    background-color: #006c00;
+}
