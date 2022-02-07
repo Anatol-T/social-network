@@ -10,10 +10,14 @@ import {compose} from "redux";
 class ProfileContainer extends Component<ProfilePropsType> {
 
   componentDidMount() {
-    const userID: number = this.props.match.params.userID ? +this.props.match.params.userID : 21565
+    if (this.props.currentUserId) {
+      const userID: number = this.props.match.params.userID
+        ? +this.props.match.params.userID
+        : this.props.currentUserId
 
-    this.props.setUserProfile(userID)
-    this.props.getStatus(userID)
+      this.props.setUserProfile(userID)
+      this.props.getStatus(userID)
+    }
   }
 
   render() {
@@ -29,10 +33,12 @@ class ProfileContainer extends Component<ProfilePropsType> {
 export type MapStatePropsType = {
   profile: ProfileType
   status: string
+  currentUserId: number | null
 }
 const mapSateToProps = (state: AppStateType): MapStatePropsType => ({
   profile: state.profilePage.profile,
-  status: state.profilePage.status
+  status: state.profilePage.status,
+  currentUserId: state.auth.userID,
 })
 type MapDispatchPropsType = {
   setUserProfile: (userID:number) => void

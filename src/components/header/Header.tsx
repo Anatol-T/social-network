@@ -28,7 +28,7 @@ function Header() {
         {!auth.isAuth &&  <NavLink to={'/login'}>Login</NavLink>}
       </div>}
       <div>
-        {auth.isAuth  && <button onClick={logout} className={stl.logoutButton}>logout</button>}
+        {auth.isAuth  && <button onClick={logout} className={stl.logoutButton}>Log out</button>}
       </div>
     </div>
   </header>
