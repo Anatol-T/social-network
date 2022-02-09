@@ -17,6 +17,8 @@ class ProfileContainer extends Component<ProfilePropsType> {
 
       this.props.setUserProfile(userID)
       this.props.getStatus(userID)
+    } else {
+      this.props.history.push("/login")
     }
   }
 

@@ -60,7 +60,7 @@ const setFailAuth = () => {
 
 export const getUserDataTC = () => (dispatch: Dispatch) => {
   dispatch(getUserDataAC())
-  authAPI.getMe()
+  return authAPI.getMe()
     .then(response => {
       if (response.data.resultCode === 0) {
         console.log('fetch')
