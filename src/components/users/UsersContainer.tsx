@@ -8,7 +8,7 @@ import {
 } from "../../redux/usersReducer";
 import React from "react";
 import {Preloader} from "../common/Preloader";
-import {getUsers} from "../../redux/users-selectors";
+import { getUsersSelector} from "../../redux/users-selectors";
 
 class UsersAPI extends React.Component<UsersPropsType> {
 
@@ -40,7 +40,7 @@ type MapStatePropsType = {
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return (
     {
-      usersPage: getUsers(state)
+      usersPage: getUsersSelector(state)
     }
   )
 }
