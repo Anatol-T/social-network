@@ -8,32 +8,16 @@ import {
 } from "../../redux/usersReducer";
 import React from "react";
 import {Preloader} from "../common/Preloader";
+import {getUsers} from "../../redux/users-selectors";
 
 class UsersAPI extends React.Component<UsersPropsType> {
 
   componentDidMount() {
     this.props.getUsersTC(this.props.usersPage.currentPage,this.props.usersPage.pageSize)
-    // this.props.toggleIsFetching(true)
-    //
-    // API.getUsers(this.props.usersPage.currentPage, this.props.usersPage.pageSize)
-    //   .then(data => {
-    //     this.props.toggleIsFetching(false)
-    //     this.props.setUsers(data.items)
-    //     this.props.setTotalCount(+data.totalCount)
-    //   })
   }
 
   onPageChanged = (newPage: number) => {
     this.props.getUsersTC(newPage,this.props.usersPage.pageSize)
-    // this.props.setUsers([])
-    // this.props.toggleIsFetching(true)
-    // this.props.setCurrentPage(newPage)
-    //
-    // API.getUsers(newPage, this.props.usersPage.pageSize)
-    //   .then(data => {
-    //     this.props.toggleIsFetching(false)
-    //     this.props.setUsers(data.items)
-    //   })
   }
 
   render() {
@@ -56,7 +40,7 @@ type MapStatePropsType = {
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
   return (
     {
-      usersPage: state.usersPage
+      usersPage: getUsers(state)
     }
   )
 }
