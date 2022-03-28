@@ -7,7 +7,7 @@ import {maxLengthCreator, requiredField} from "../../../utils/validators/validat
 import {TextArea} from "../../common/TextArea";
 
 
-const MyPosts = ({profilePage, ...props}: MyPostsPropsType) => {
+const MyPosts = React.memo(({profilePage, ...props}: MyPostsPropsType) => {
 
   const addPost = (postText:PostFormType) => {
     props.addPost(postText.postText)
@@ -27,7 +27,7 @@ const MyPosts = ({profilePage, ...props}: MyPostsPropsType) => {
     </div>
   )
 
-}
+})
 
 export default MyPosts;
 
