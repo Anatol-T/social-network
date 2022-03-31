@@ -76,7 +76,7 @@ type MapDispatchPropsType = {
 export type UsersPropsType = MapStatePropsType & MapDispatchPropsType
 
 //export type UsersPropsType = ConnectedProps<typeof UsersContainer>
-export const UsersContainer = connect(mapStateToProps, {
+export default  connect(mapStateToProps, {
   follow: followTC,
   unfollow: unfollowTC,
   getUsersTC,
