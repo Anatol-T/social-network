@@ -7,7 +7,6 @@ import {
   UsersStateType,
 } from "../../redux/usersReducer";
 import React from "react";
-import {Preloader} from "../common/Preloader";
 import { getUsersSelector} from "../../redux/users-selectors";
 
 class UsersAPI extends React.Component<UsersPropsType> {
@@ -23,12 +22,12 @@ class UsersAPI extends React.Component<UsersPropsType> {
   render() {
     return (
       <>
-        {this.props.usersPage.isFetching && <Preloader/>}
         <Users usersPage={this.props.usersPage}
                follow={this.props.follow}
                unfollow={this.props.unfollow}
                onPageChanged={this.onPageChanged}
-        /></>
+        />
+      </>
     )
   }
 }
