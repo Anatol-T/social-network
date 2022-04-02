@@ -1,15 +1,20 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import s from './ProfileInfo.module.css';
 import {ProfilePropsType} from "../ProfileContainer";
 import {Preloader} from "../../common/Preloader";
 import {ProfileStatus} from "./ProfileStatus";
+import defaultAvatar from '../../../assets/defaultAvatar.png'
 
 
 const ProfileInfo = (props: ProfilePropsType) => {
   if (!props.profile) {
     return <Preloader/>
   }
-  //console.log(props.profile.fullName)
+  const addFileHandler = (e:ChangeEvent<HTMLInputElement>) => {
+    if (e.currentTarget.files){
+      props.savePhoto(e.currentTarget.files[0])
+    }
+  }
   return (
     <div>
       <div>
@@ -18,10 +23,14 @@ const ProfileInfo = (props: ProfilePropsType) => {
           alt='pct'/>
       </div>
       <div className={s.descriptionBlock}>
-        <img src={props.profile.photos.large? props.profile.photos.large: ""} alt={props.profile.fullName}/>
+        <img src={props.profile.photos.large? props.profile.photos.large: defaultAvatar}
+             alt={props.profile.fullName}
+             style={{width: "150px", height: "150px", borderRadius: "50%"}}
+        />
         <div>Name: {props.profile.fullName}</div>
         <div>About me: {props.profile.aboutMe}</div>
         <div>Job: {props.profile.lookingForAJobDescription}</div>
+        {!props.match.params.userID && <input type={"file"} onChange={addFileHandler}/>}
         <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
       </div>
     </div>

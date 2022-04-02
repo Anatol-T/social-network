@@ -6,6 +6,10 @@ export type PostType = {
   message: string,
   likesCount: number
 }
+type Photos = {
+  small: string | null,
+  large: string | null
+}
 export type ProfileType = {
   aboutMe: string,
   contacts: {
@@ -22,10 +26,7 @@ export type ProfileType = {
   lookingForAJobDescription: string,
   fullName: string,
   userId: number,
-  photos: {
-    small: string | null,
-    large: string | null
-  }
+  photos: Photos
 } | null
 
 export type profilePageType = typeof initialState
@@ -52,6 +53,8 @@ const profileReducer = (state:profilePageType=initialState, action: ActionsType)
       return {...state, profile: action.profile}
     case "SET-STATUS":
       return {...state, status: action.status}
+    case "SET-USER-PHOTO":
+      return {...state, profile: state.profile ? {...state.profile, photos: action.photos}: null }
     default:
       return state;
   }
@@ -60,11 +63,12 @@ const profileReducer = (state:profilePageType=initialState, action: ActionsType)
 
 export default profileReducer;
 
-type ActionsType = AddPostActionType |  SetUserProfileACType | SetStatusACType;
+type ActionsType = AddPostActionType |  SetUserProfileACType | SetStatusACType | SetUserPhotoACType;
 type AddPostActionType = ReturnType<typeof addPostAC>;
 
 type SetUserProfileACType = ReturnType<typeof setUserProfileAC>
 type SetStatusACType = ReturnType<typeof setStatusAC>
+type SetUserPhotoACType = ReturnType<typeof setUserPhotoAC>
 
 export const addPostAC = (newPost:string) => ({type: "ADD-POST", newPost}
 ) as const
@@ -76,6 +80,10 @@ export const setUserProfileAC = (profile: ProfileType) => ({
 const setStatusAC = (status: string) => ({
   type: "SET-STATUS",
   status
+})as const
+const setUserPhotoAC = (photos: Photos) => ({
+  type: "SET-USER-PHOTO",
+  photos
 })as const
 
 export const setUserProfileTC = (userID:number) => {
@@ -101,6 +109,17 @@ export const updateStatusTC = (status:string) => {
       .then(res => {
         if (res.data.resultCode === 0) {
           dispatch(setStatusAC(status))
+        }
+      })
+  }
+}
+
+export const savePhotoTC = (file:File) => {
+  return (dispatch:Dispatch) => {
+    profileAPI.savePhoto(file)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          dispatch(setUserPhotoAC(res.data.data.photos))
         }
       })
   }
