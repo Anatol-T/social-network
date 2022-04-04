@@ -1,5 +1,6 @@
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/API";
+import {ThunkDispatch} from "redux-thunk";
 
 export type PostType = {
   id: number,
@@ -27,17 +28,15 @@ export type ProfileType = {
   fullName: string,
   userId: number,
   photos: Photos
-} | null
+}
 
 export type profilePageType = typeof initialState
 const initialState = {
   posts: [
     {id: 1, message: 'Hi, how are you?', likesCount: 12},
     {id: 2, message: 'It\'s my first post', likesCount: 11},
-    {id: 3, message: 'Blabla', likesCount: 11},
-    {id: 4, message: 'Dada', likesCount: 11}
   ] as Array<PostType>,
-  profile: null as ProfileType,
+  profile: {} as ProfileType,
   status: "",
 }
 const profileReducer = (state:profilePageType=initialState, action: ActionsType):profilePageType => {
@@ -54,7 +53,7 @@ const profileReducer = (state:profilePageType=initialState, action: ActionsType)
     case "SET-STATUS":
       return {...state, status: action.status}
     case "SET-USER-PHOTO":
-      return {...state, profile: state.profile ? {...state.profile, photos: action.photos}: null }
+      return {...state, profile:  {...state.profile, photos: action.photos} }
     default:
       return state;
   }
@@ -120,6 +119,17 @@ export const savePhotoTC = (file:File) => {
       .then(res => {
         if (res.data.resultCode === 0) {
           dispatch(setUserPhotoAC(res.data.data.photos))
+        }
+      })
+  }
+}
+
+export const saveProfileTC = (profile:Object, userID:number) => {
+  return (dispatch:ThunkDispatch<any, any, any>) => {
+    profileAPI.saveProfile(profile)
+      .then(res => {
+        if (res.data.resultCode === 0) {
+          dispatch(setUserProfileTC(userID))
         }
       })
   }

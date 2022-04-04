@@ -1,12 +1,15 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import s from './ProfileInfo.module.css';
 import {ProfilePropsType} from "../ProfileContainer";
 import {Preloader} from "../../common/Preloader";
 import {ProfileStatus} from "./ProfileStatus";
 import defaultAvatar from '../../../assets/defaultAvatar.png'
+import {ProfileType} from "../../../redux/profileReducer";
+import {ProfileDataForm} from "./ProfileDataForm";
 
 
 const ProfileInfo = (props: ProfilePropsType) => {
+  const [editMode, setEditMode] = useState<boolean>(false)
   if (!props.profile) {
     return <Preloader/>
   }
@@ -17,19 +20,17 @@ const ProfileInfo = (props: ProfilePropsType) => {
   }
   return (
     <div>
-      <div>
-        <img
-          src='https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg?auto=compress&cs=tinysrgb&h=350'
-          alt='pct'/>
-      </div>
       <div className={s.descriptionBlock}>
-        <img src={props.profile.photos.large? props.profile.photos.large: defaultAvatar}
+        <img src={Object.keys(props.profile).length !== 0  && props.profile.photos.large ? props.profile!.photos!.large : defaultAvatar}
              alt={props.profile.fullName}
              style={{width: "150px", height: "150px", borderRadius: "50%"}}
         />
-        <div>Name: {props.profile.fullName}</div>
-        <div>About me: {props.profile.aboutMe}</div>
-        <div>Job: {props.profile.lookingForAJobDescription}</div>
+        {editMode
+          ? <ProfileDataForm setEditMode={setEditMode} userID={props.profile.userId} initialValues={props.profile}/>
+          : <ProfileData profile={props.profile}
+                      isOwner={props.profile.userId === props.currentUserId}
+                      setEditMode={setEditMode}
+        />}
         {!props.match.params.userID && <input type={"file"} onChange={addFileHandler}/>}
         <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
       </div>
@@ -38,3 +39,28 @@ const ProfileInfo = (props: ProfilePropsType) => {
 }
 
 export default ProfileInfo;
+type ProfileDataPropsType = {
+  profile: ProfileType
+  isOwner: boolean
+  setEditMode: (isEdit: boolean) => void
+}
+const ProfileData = ({profile, isOwner, setEditMode}: ProfileDataPropsType) => {
+
+  return (
+    <div>
+      {isOwner && <div><button onClick={()=> setEditMode(true)}>Edit profile</button></div>}
+      <div>
+        <b>Full name: </b> {profile?.fullName}
+      </div>
+      <div>
+        <b>About me: </b> {profile?.aboutMe}
+      </div>
+      <div>
+        <b>Looking for a job: </b> {profile?.lookingForAJob ? "yes" : "no"}
+      </div>
+      <div>
+        <b>My professional skills: </b> {profile?.lookingForAJobDescription}
+      </div>
+    </div>
+  )
+}
