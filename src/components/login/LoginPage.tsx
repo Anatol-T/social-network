@@ -11,9 +11,10 @@ import {AppStateType} from "../../redux/redux-store";
 export function LoginPage  ()  {
   const dispatch = useDispatch()
   const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
+
   const onSubmit = (formData:FormDataType) => {
     console.log(formData)
-    dispatch(loginTC(formData.email, formData.password, formData.rememberMe))
+    dispatch(loginTC(formData.email, formData.password, formData.rememberMe, formData.captcha))
   }
   if (isAuth) {
     return <Redirect to={"/profile"}/>
@@ -21,7 +22,7 @@ export function LoginPage  ()  {
   return (
     <div>
       <h3>Login</h3>
-      <LoginReduxForm onSubmit={onSubmit}/>
+      <LoginReduxForm onSubmit={onSubmit} />
     </div>
   );
 }
@@ -30,15 +31,18 @@ type FormDataType = {
   email: string
   password: string
   rememberMe: boolean
+  captcha: string
 }
 
 const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
+  const captchaUrl = useSelector<AppStateType, string>(state => state.auth.captchaUrl)
+  console.log('q', captchaUrl)
   return (
     <form onSubmit={props.handleSubmit}>
       <fieldset>
         <Field  placeholder={'Email'} name={"email"} component={Input} validate={[requiredField]}/>
-      </fieldset><
-      fieldset>
+      </fieldset>
+      <fieldset>
         <Field
           placeholder={'Password'}
           name={"password"}
@@ -49,6 +53,11 @@ const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
       <fieldset>
         <Field type={"checkbox"} name={"rememberMe"} component={"input"}/>remember me
       </fieldset>
+      {captchaUrl &&
+      <fieldset>
+        <img src={captchaUrl} alt={"captcha"}/>
+        <Field  placeholder={'captcha'} name={"captcha"} component={Input} validate={[requiredField]}/>
+      </fieldset>}
       {props.error && <div>{props.error}</div>}
       <button>Log in</button>
     </form>
